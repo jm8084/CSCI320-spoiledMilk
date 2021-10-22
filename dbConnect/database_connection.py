@@ -1,6 +1,7 @@
 import psycopg2
 import dbConnect.myLogin as info
 from sshtunnel import SSHTunnelForwarder
+import dbConnect.create_tables as create_tables
 
 dbName = 'p320_29'
 
@@ -26,6 +27,10 @@ try:
         conn = psycopg2.connect(**params)
         curs = conn.cursor()
         print("Database connection established")
+
+        create_tables.create_tables(curs,conn)
+        curs.close()
+        conn.commit()
 
 except:
     print("Connection failed")
