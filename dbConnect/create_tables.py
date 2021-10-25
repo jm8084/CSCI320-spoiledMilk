@@ -82,4 +82,5 @@ def create_tables(curs,conn):
         print(error)
     finally:
         if conn is not None:
+            curs.close()
             conn.close()

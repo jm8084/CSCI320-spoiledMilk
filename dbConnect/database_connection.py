@@ -27,12 +27,8 @@ def connect():
             }
 
             conn = psycopg2.connect(**params)
-            # curs = conn.cursor()
             print("Database connection established")
 
-            # create_tables.create_tables(curs, conn)
-            # curs.close()
-            # conn.commit()
 
         return conn
 
