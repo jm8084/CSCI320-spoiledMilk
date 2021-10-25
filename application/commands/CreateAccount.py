@@ -5,7 +5,7 @@ class CreateAccount():
         self.cur = cur
         pass
 
-    def parse(self, cmd: str):
+    def get_inputs(self):
 
         pass
 

@@ -29,7 +29,6 @@ def connect():
             conn = psycopg2.connect(**params)
             print("Database connection established")
 
-
         return conn
 
     except:
