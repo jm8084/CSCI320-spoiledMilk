@@ -1,10 +1,6 @@
 
 class Login():
 
-    def __init__(self, cur):
-        self.cur = cur
-        pass
-
     def get_inputs(self):
 
         username = input('Username: ')
@@ -12,23 +8,17 @@ class Login():
 
         return((username, password))
 
-    def execute(self):
+    def execute(self, cur):
 
-        result = ''
         values = self.get_inputs()
 
         try:
-            result = self.cur.execute(f"SELECT {values[0]} FROM usr WHERE password = {values[1]}")
+            cur.execute("SELECT * FROM usr WHERE username = %s AND password = %s", (values[0], values[1]))
 
-            # check for valid results
-            if(result is None):
-                return 'login failed'
-            else:
-                return self.toString(result)
+
 
         except:
             print('login failed!')
-
 
 
     def toString(self, result) -> str:

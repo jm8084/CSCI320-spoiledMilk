@@ -1,5 +1,4 @@
 from application.commands import Login, CreateAccount, ManageCatalog, OrganizeTools, CreateCategory, SearchTool, SortTools, Request, ManageRequests, AcceptRequest, DenyRequest, InspectTools, ReturnTool, DeleteTool
-import dbConnect.database_connection as db_conn
 import dbConnect.create_tables as tables
 
 
@@ -35,35 +34,26 @@ RETURN_TOOL = 'return-tool'
 DELETE_TOOL = 'delete-tool'
 
 
-# ------- CREATE TABLES -----------
-def create_tables():
-
-    conn = db_conn.connect()
-    curs = conn.cursor()
-
-    tables.create_tables(curs, conn)
-
-
 # correlate commands to their proper execution
-def set_commands(cur):
+def set_commands():
     print('...complete!')
 
     global command_map
 
     # map commands to operations
     command_map = {
-        MANAGE_CATALOG: ManageCatalog.ManageCatalog(cur),
-        ORGANIZE_TOOLS: OrganizeTools.OrganizeTools(cur),
-        CREATE_CATEGORY: CreateCategory.CreateCategory(cur),
-        SEARCH_TOOL: SearchTool.SearchTool(cur),
-        SORT_TOOLS: SortTools.SortTools(cur),
-        REQUEST: Request.Request(cur),
-        MANAGE_REQUESTS: ManageRequests.ManageRequests(cur),
-        ACCEPT_REQUEST: AcceptRequest.AcceptRequest(cur),
-        DENY_REQUEST: DenyRequest.DenyRequest(cur),
-        INSPECT_TOOL: InspectTools.InspectTools(cur),
-        RETURN_TOOL: ReturnTool.ReturnTool(cur),
-        DELETE_TOOL: DeleteTool.DeleteTool(cur)
+        MANAGE_CATALOG: ManageCatalog.ManageCatalog(),
+        ORGANIZE_TOOLS: OrganizeTools.OrganizeTools(),
+        CREATE_CATEGORY: CreateCategory.CreateCategory(),
+        SEARCH_TOOL: SearchTool.SearchTool(),
+        SORT_TOOLS: SortTools.SortTools(),
+        REQUEST: Request.Request(),
+        MANAGE_REQUESTS: ManageRequests.ManageRequests(),
+        ACCEPT_REQUEST: AcceptRequest.AcceptRequest(),
+        DENY_REQUEST: DenyRequest.DenyRequest(),
+        INSPECT_TOOL: InspectTools.InspectTools(),
+        RETURN_TOOL: ReturnTool.ReturnTool(),
+        DELETE_TOOL: DeleteTool.DeleteTool()
     }
 
 # break down input
@@ -124,15 +114,15 @@ def prompt():
     return man
 
 #
-def login(cmd, cur):
+def login(conn):
     global loggedIn, user
 
     user_data = ''
 
-    if(cmd == LOGIN):
-        usr_data = Login.Login(cur).execute()
+    if(command == LOGIN):
+        usr_data = Login.Login().execute(conn.cursor())
     else:
-        usr_data = CreateAccount.CreateAccount(cur).execute()
+        usr_data = CreateAccount.CreateAccount().execute(conn.cursor())
 
 
     print('...logging in')
@@ -146,18 +136,16 @@ def logout():
     loggedIn = False
 
 #
-def application():
+def application(conn):
 
     global command
-    # connect to db & get cursor
-    conn = db_conn.connect()
-    cur = conn.cursor()
 
     # init command list
-    set_commands(cur)
+    set_commands()
 
     # display user manual at startup
     print(prompt())
+
 
     # while command not exit
     while(command != EXIT):
@@ -169,15 +157,8 @@ def application():
         elif(command == HELP):
             print(prompt())
         elif(command == LOGIN or command == CREATE_ACCOUNT):
-            login( command, cur)
+            login(conn)
         elif(command == LOGOUT):
             logout()
         else:
             print(handle_command(command))
-
-    # close db & cursor connection
-    cur.close()
-    conn.close()
-
-
-application()
