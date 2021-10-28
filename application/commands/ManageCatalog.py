@@ -1,6 +1,10 @@
 
 class ManageCatalog():
 
+    def __init__(self, cur):
+        self.cur = cur
+        pass
+
     def get_inputs(self):
         operation = input("Would you like to 'add', 'edit', or 'delete' a tool: ")
 
@@ -42,14 +46,14 @@ class ManageCatalog():
         else:
             operation = 'err'
 
-    def execute(self, cur):
+    def execute(self):
 
         values = self.get_inputs()
 
         if values[0] == 'add':
             try:
-                result1 = cur.execute(f"INSERT INTO tool VALUES({values[1]}, {values[2]}, {values[3]}, {values[4]}, {values[5]}, {values[6]})")
-                result2 = cur.execute(f"INSERT INTO catalog VALUES({values[1]}, {values[7]} )")
+                result1 = self.cur.execute(f"INSERT INTO tool VALUES({values[1]}, {values[2]}, {values[3]}, {values[4]}, {values[5]}, {values[6]})")
+                result2 = self.cur.execute(f"INSERT INTO catalog VALUES({values[1]}, {values[7]} )")
                 # "INSERT INTO tool(barcode, name, description, shareable, purchaseDate, purchasePrice)
                 # VALUES(barcode, name, description, purchase_p, purchase_d, share);"
                 # "INSERT INTO catalog(barcode, username) VALUES(barcode, USERNAME???)"
@@ -65,7 +69,7 @@ class ManageCatalog():
 
         elif values[0] == 'edit':
             try:
-                result = cur.execute(f"UPDATE tool SET {values[2]} = {values[3]} WHERE barcode = {values[1]}")
+                result = self.cur.execute(f"UPDATE tool SET {values[2]} = {values[3]} WHERE barcode = {values[1]}")
                 # "UPDATE tool SET action = change WHERE barcode = bar;
 
                 # check for valid results
@@ -77,9 +81,9 @@ class ManageCatalog():
                 print('edit failed!')
         elif values[0] == 'delete':
             try:
-                result1 = cur.execute(f"DELETE FROM tool WHERE barcode = {values[1]}")
-                result2 = cur.execute(f"DELETE FROM catalog WHERE barcode = {values[1]}")
-                result3 = cur.execute(f"DELETE FROM tool_category WHERE barcode = {values[1]}")
+                result1 = self.cur.execute(f"DELETE FROM tool WHERE barcode = {values[1]}")
+                result2 = self.cur.execute(f"DELETE FROM catalog WHERE barcode = {values[1]}")
+                result3 = self.cur.execute(f"DELETE FROM tool_category WHERE barcode = {values[1]}")
                 # "DELETE FROM tool WHERE barcode = bar"
                 # "DELETE FROM catalog WHERE barcode = bar"
                 # "DELETE FROM category WHERE barcode = bar"
@@ -91,7 +95,9 @@ class ManageCatalog():
                     return self.toString(result1)
             except:
                 print('delete failed!')
+        else:
+            print('operation failed')
 
-    def toString(self) -> str:
-        return "none"
+    def toString(self, result) -> str:
+        return result
 
