@@ -15,7 +15,7 @@ class ManageCatalog():
             description = input("Description: ")
             purchase_p = input("Purchase Price: x.xx ")
             purchase_d = input("Purchase Date: mm/dd/yyyy ")
-            share = input("Shareable: Y/N ")
+            share = 1
 
             # "INSERT INTO tool(barcode, name, description, shareable, purchaseDate, purchasePrice)
             # VALUES(barcode, name, description, purchase_p, purchase_d, share);"
@@ -81,18 +81,26 @@ class ManageCatalog():
                 print('edit failed!')
         elif values[0] == 'delete':
             try:
-                result1 = self.cur.execute(f"DELETE FROM tool WHERE barcode = {values[1]}")
-                result2 = self.cur.execute(f"DELETE FROM catalog WHERE barcode = {values[1]}")
-                result3 = self.cur.execute(f"DELETE FROM tool_category WHERE barcode = {values[1]}")
-                # "DELETE FROM tool WHERE barcode = bar"
-                # "DELETE FROM catalog WHERE barcode = bar"
-                # "DELETE FROM category WHERE barcode = bar"
+                # This statement is probably not correct (I need some requests in order to test)
+                # Select the tool if its status is borrowed
+                result = self.cur.execute(f"SELECT * FROM request WHERE barcode = {values[1]}, status = 'Borrowed'")
+                if result is None:
+                    result1 = self.cur.execute(f"DELETE FROM tool WHERE barcode = {values[1]}")
+                    result2 = self.cur.execute(f"DELETE FROM catalog WHERE barcode = {values[1]}")
+                    result3 = self.cur.execute(f"DELETE FROM tool_category WHERE barcode = {values[1]}")
+                    result4 = self.cur.execute(f"DELETE FROM request WHERE barcode = {values[1]}")
+                    # "DELETE FROM tool WHERE barcode = bar"
+                    # "DELETE FROM catalog WHERE barcode = bar"
+                    # "DELETE FROM category WHERE barcode = bar"
+                    # "DELETE FROM request WHERE barcode = bar"
 
-                # check for valid results
-                if (result1 is None or result2 is None or result3 is None):
-                    return 'delete failed'
+                    # check for valid results
+                    if result1 is None or result2 is None or result3 is None:
+                        return 'delete failed'
+                    else:
+                        return self.toString(result1)
                 else:
-                    return self.toString(result1)
+                    return 'delete failed, tool is being borrowed'
             except:
                 print('delete failed!')
         else:
