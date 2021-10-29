@@ -59,17 +59,18 @@ def create_tables(curs,conn):
         """,
         """
             CREATE TABLE request (
-                barcode INTEGER NOT NULL UNIQUE,
+                barcode INTEGER NOT NULL,
                 CONSTRAINT fk_barcode
                     FOREIGN KEY (barcode)
                         REFERENCES tool (barcode),
-                username VARCHAR(20) NOT NULL UNIQUE,
+                username VARCHAR(20) NOT NULL,
                 CONSTRAINT fk_username
                     FOREIGN KEY (username)
                         REFERENCES usr (username),
                 status INTEGER NOT NULL,
-                dateRequired DATE NOT NULL UNIQUE,
-                dateReturned DATE NOT NULL UNIQUE
+                dateRequired DATE NOT NULL,
+                dateReturned DATE NOT NULL,
+                PRIMARY KEY (barcode,username,dateRequired,dateReturned)
             )
         """
     ]

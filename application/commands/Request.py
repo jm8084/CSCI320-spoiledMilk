@@ -12,17 +12,17 @@ class Request():
     def execute(self, cur):
         values = self.get_inputs()
 
-        if values[0] == 'assign':
-            try:
-                result = self.cur.execute(f"INSERT INTO request(barcode, username,status,daterequired,datereturned) VALUES{values[0]}, {values[1]},{0},{values[2]},{values[3]} )")
-
-                # check for valid results
-                if result is None:
-                    return self.toString(result)
-                else:
-                    return self.toString(result)
-            except:
-                print('request failed!')
+        try:
+            print(f"INSERT INTO request(barcode, username,status,daterequired,datereturned) VALUES({values[0]}, '{values[1]}',{0},'{values[2]}','{values[3]}' )")
+            result = self.cur.execute(f"INSERT INTO request(barcode, username,status,daterequired,datereturned) VALUES({values[0]}, '{values[1]}',{0},'{values[2]}','{values[3]}' )")
+            #cur.close()
+            # check for valid results
+            if result is None:
+                return ('request failed!')
+            else:
+                return self.toString(result)
+        except:
+            print('request failed!')
 
 
     def toString(self,result) -> str:
