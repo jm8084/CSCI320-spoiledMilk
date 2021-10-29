@@ -14,8 +14,7 @@ class Login():
 
         try:
             cur.execute("SELECT * FROM usr WHERE username = %s AND password = %s", (values[0], values[1]))
-
-
+            self.toString(cur.fetchone())
 
         except:
             print('login failed!')

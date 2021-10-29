@@ -1,10 +1,6 @@
 
 class OrganizeTools():
 
-    def __init__(self, cur):
-        self.cur = cur
-        pass
-
     def get_inputs(self):
         operation = input("Would you like to 'assign' a category or 'create' a category: ")
 
@@ -17,13 +13,13 @@ class OrganizeTools():
             cat_name = input("Category Name: ")
             return operation, cat_name
 
-    def execute(self):
+    def execute(self, cur):
         values = self.get_inputs()
 
         if values[0] == 'assign':
             try:
-                cat_id = self.cur.execute(f"SELECT categoryid from category WHERE categoryname = {values[2]}")
-                result = self.cur.execute(f"INSERT INTO tool_categories (barcode, categoryid) VALUES({values[1]}, {cat_id} )")
+                cat_id = cur.execute(f"SELECT categoryid from category WHERE categoryname = {values[2]}")
+                result = cur.execute(f"INSERT INTO tool_categories (barcode, categoryid) VALUES({values[1]}, {cat_id} )")
 
                 # check for valid results
                 if result is None:
@@ -35,7 +31,7 @@ class OrganizeTools():
 
         if values[0] == 'create':
             try:
-                result = self.cur.execute(f"INSERT INTO category (categoryname) VALUES ({values[1]})")
+                result = cur.execute(f"INSERT INTO category (categoryname) VALUES ({values[1]})")
 
                 # check for valid results
                 if result is None:
