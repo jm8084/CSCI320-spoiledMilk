@@ -17,7 +17,7 @@ def create_tables(curs,conn):
             barcode INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
             description TEXT,
-            sharable INTEGER,
+            shareable INTEGER,
             purchaseDate DATE,
             purchasePrice MONEY
         )
