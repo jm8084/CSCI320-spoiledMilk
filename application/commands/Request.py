@@ -1,3 +1,5 @@
+import psycopg2
+
 
 class Request():
 
@@ -9,20 +11,28 @@ class Request():
 
         return barcode,username,daterequired,datereturned
 
-    def execute(self, cur):
+    def execute(self, cur,conn):
         values = self.get_inputs()
 
         try:
-            print(f"INSERT INTO request(barcode, username,status,daterequired,datereturned) VALUES({values[0]}, '{values[1]}',{0},'{values[2]}','{values[3]}' )")
-            result = self.cur.execute(f"INSERT INTO request(barcode, username,status,daterequired,datereturned) VALUES({values[0]}, '{values[1]}',{0},'{values[2]}','{values[3]}' )")
-            #cur.close()
+            # print(f"INSERT INTO request(barcode, username,status,daterequired,datereturned) VALUES((SELECT barcode from tool WHERE tool.barcode={values[0]} and tool.sharable=1), '{values[1]}',{0},'{values[2]}','{values[3]}' )")
+            result = cur.execute(f"INSERT INTO request(barcode, username,status,daterequired,datereturned) VALUES((SELECT barcode from tool WHERE tool.barcode={values[0]} and tool.sharable=1), '{values[1]}',{0},'{values[2]}','{values[3]}' )")
+            conn.commit()
+
+            # print(result)
             # check for valid results
             if result is None:
-                return ('request failed!')
-            else:
-                return self.toString(result)
-        except:
-            print('request failed!')
+                return ('[+][Request] Request Successful')
+
+        except (psycopg2.DatabaseError) as e:
+            conn.rollback()
+            # print(e)
+            if e.pgcode == "23505":
+                return ('[!][Request] Duplicate Request')
+            elif e.pgcode == "25P02":
+                return ("[!][Request] Tool Not Sharable")
+        finally:
+            cur.close()
 
 
     def toString(self,result) -> str:

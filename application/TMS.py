@@ -57,13 +57,13 @@ def set_commands():
     }
 
 # break down input
-def handle_command(cmd, cur):
+def handle_command(cmd, cur,conn):
 
     response = ''
 
     try:
         if (loggedIn):
-            response = command_map[cmd].execute(cur)
+            response = command_map[cmd].execute(cur,conn)
         else:
             response = 'login before executing any commands!'
     except:
@@ -153,6 +153,7 @@ def application(conn):
         command = input('--> ')
 
         if(command == EXIT):
+            conn.cursor().close()
             print('bye!')
         elif(command == HELP):
             print(prompt())
@@ -161,4 +162,4 @@ def application(conn):
         elif(command == LOGOUT):
             logout()
         else:
-            print(handle_command(command, conn.cursor()))
+            print(handle_command(command, conn.cursor(),conn))
