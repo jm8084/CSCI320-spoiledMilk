@@ -32,6 +32,10 @@ class Login():
             print('login failed!')
 
 
+        finally:
+            cur.close()
+
+
     def toString(self, result):
 
         print('Hi ',result[2])
