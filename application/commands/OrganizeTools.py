@@ -1,4 +1,4 @@
-
+import psycopg2
 class OrganizeTools():
 
     def get_inputs(self):
@@ -18,28 +18,32 @@ class OrganizeTools():
 
         if values[0] == 'assign':
             try:
-                cat_id = cur.execute(f"SELECT categoryid from category WHERE categoryname = {values[2]}")
-                result = cur.execute(f"INSERT INTO tool_categories (barcode, categoryid) VALUES({values[1]}, {cat_id} )")
-
+                result = cur.execute(f"""INSERT INTO tool_categories(barcode, categoryid) VALUES ('{values[1]}',
+                    (SELECT categoryid from category WHERE category.categoryname='{values[2]}'))""")
+                conn.commit()
                 # check for valid results
                 if result is None:
-                    return 'assign failed'
-                else:
-                    return self.toString(result)
-            except:
-                print('assign failed!')
+                    return "[+][Organize Tools]Assign successful"
+            except (psycopg2.DatabaseError) as e:
+                conn.rollback()
+                print(e)
+            finally:
+                cur.close()
 
         if values[0] == 'create':
             try:
-                result = cur.execute(f"INSERT INTO category (categoryname) VALUES ({values[1]})")
-
+                result = cur.execute(f"INSERT INTO category (categoryname) VALUES ('{values[1]}')")
+                conn.commit()
                 # check for valid results
                 if result is None:
-                    return "create failed"
-                else:
-                    return self.toString(result)
-            except:
-                print("create failed!")
+                    return "[+][Organize Tools]Create successful"
+
+
+            except (psycopg2.DatabaseError) as e:
+                conn.rollback()
+                print(e)
+            finally:
+                cur.close()
 
     def toString(self, result) -> str:
         return result
