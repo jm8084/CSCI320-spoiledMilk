@@ -132,16 +132,15 @@ def login(conn):
             print(' Setting user data failed')
     else:
         usr_data = CreateAccount.CreateAccount().execute(conn.cursor(), conn)
+        # If we successfully returned the values from the toString() call
         if usr_data != None:
             user.update({'email'    : usr_data[1],
                          'username' : usr_data[0],
                          'first'    : usr_data[3],
                          'last'     : usr_data[4]})
+            print('...logging in')
             loggedIn = True
-
-
-
-
+            print('Welcome, ' + user['first'] + '.')
 
 #
 def logout():

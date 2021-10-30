@@ -1,7 +1,6 @@
 
 from datetime import datetime
 import psycopg2
-import dbConnect.insert_data as insert
 
 class CreateAccount():
 
@@ -25,15 +24,16 @@ class CreateAccount():
                         f"'{datetime.now()}', '{values[3]}', '{values[4]}')")
             conn.commit()
             return self.toString(values)
-        except psycopg2.IntegrityError as error:
+
+        except psycopg2.IntegrityError:
             print("This username is already in use.  Login to that account or use another username.")
             conn.rollback()
-        except (Exception, psycopg2.DatabaseError) as error:
+
+        except (Exception, psycopg2.DatabaseError):
             print('Create account failed!')
             conn.rollback()
 
     def toString(self, values):
         print('Account created successfully and you will be automatically logged in.')
-        print('Welcome, ' + values[3] + '.')
         return values
 
