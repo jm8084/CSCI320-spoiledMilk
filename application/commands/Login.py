@@ -19,7 +19,8 @@ class Login():
             result = cur.fetchone()
 
             try:
-                cur.execute("UPDATE usr SET lastaccessdate = %s WHERE username = %s", (datetime.now(), values[0]))
+                cur.execute("UPDATE usr SET lastaccessdate = %s WHERE username = %s AND password = %s",
+                            (datetime.now(), values[0], values[1]))
                 conn.commit()
             except:
                 print('Unable to update access datetime.')
