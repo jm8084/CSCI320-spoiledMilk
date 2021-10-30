@@ -38,7 +38,8 @@ def create_tables(curs,conn):
                 barcode INTEGER,
                 CONSTRAINT fk_barcode
                     FOREIGN KEY (barcode)
-                        REFERENCES tool (barcode),
+                        REFERENCES tool (barcode)
+                        ON DELETE CASCADE,
                 categoryID SERIAL,
                 CONSTRAINT fk_categoryID
                     FOREIGN KEY (categoryID)
@@ -50,7 +51,8 @@ def create_tables(curs,conn):
                 barcode INTEGER,
                 CONSTRAINT fk_barcode
                     FOREIGN KEY (barcode)
-                        REFERENCES tool (barcode),
+                        REFERENCES tool (barcode)
+                        ON DELETE CASCADE,
                 username VARCHAR(20),
                 CONSTRAINT fk_username
                     FOREIGN KEY (username)
@@ -62,7 +64,8 @@ def create_tables(curs,conn):
                 barcode INTEGER NOT NULL,
                 CONSTRAINT fk_barcode
                     FOREIGN KEY (barcode)
-                        REFERENCES tool (barcode),
+                        REFERENCES tool (barcode)
+                        ON DELETE CASCADE,
                 username VARCHAR(20) NOT NULL,
                 CONSTRAINT fk_username
                     FOREIGN KEY (username)
