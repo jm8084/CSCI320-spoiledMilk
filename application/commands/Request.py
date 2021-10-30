@@ -5,18 +5,17 @@ class Request():
 
     def get_inputs(self):
         barcode = input("Barcode of tool to borrow: ")
-        username = input("Your username: ")
         daterequired = input("Date the tool is required YYYY-MM-DD: ")
         datereturned = input("Date to return the tool YYYY-MM-DD: ")
 
-        return barcode,username,daterequired,datereturned
+        return barcode, daterequired, datereturned
 
     def execute(self, cur,conn, user):
         values = self.get_inputs()
 
         try:
-            # print(f"INSERT INTO request(barcode, username,status,daterequired,datereturned) VALUES((SELECT barcode from tool WHERE tool.barcode={values[0]} and tool.sharable=1), '{values[1]}',{0},'{values[2]}','{values[3]}' )")
-            result = cur.execute(f"INSERT INTO request(barcode, username,status,daterequired,datereturned) VALUES((SELECT barcode from tool WHERE tool.barcode={values[0]} and tool.sharable=1), '{values[1]}',{0},'{values[2]}','{values[3]}' )")
+            # print(f"INSERT INTO request(barcode, username,status,daterequired,datereturned) VALUES((SELECT barcode from tool WHERE tool.barcode={values[0]} and tool.sharable=1), '{user['username']}',{0},'{values[1]}','{values[2]}' )")
+            result = cur.execute(f"INSERT INTO request(barcode, username,status,daterequired,datereturned) VALUES((SELECT barcode from tool WHERE tool.barcode={values[0]} and tool.sharable=1), '{user['username']}',{0},'{values[1]}','{values[2]}' )")
             conn.commit()
 
             # print(result)
