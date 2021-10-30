@@ -1,4 +1,6 @@
 
+from datetime import datetime
+
 class Login():
 
     def get_inputs(self):
@@ -8,13 +10,22 @@ class Login():
 
         return((username, password))
 
-    def execute(self, cur):
+    def execute(self, cur, conn):
 
         values = self.get_inputs()
 
         try:
             cur.execute("SELECT email, username, firstname, lastname FROM usr WHERE username = %s AND password = %s", (values[0], values[1]))
-            return self.toString(cur.fetchone())
+            result = cur.fetchone()
+
+            try:
+                cur.execute("UPDATE usr SET lastaccessdate = %s WHERE username = %s", (datetime.now(), values[0]))
+                conn.commit()
+            except:
+                print('Unable to update access datetime.')
+                conn.rollback()
+
+            return self.toString(result)
 
         except:
             print('login failed!')

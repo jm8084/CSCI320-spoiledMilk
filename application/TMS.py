@@ -119,7 +119,7 @@ def login(conn):
 
     if(command == LOGIN):
         try:
-            usr_data = Login.Login().execute(conn.cursor())
+            usr_data = Login.Login().execute(conn.cursor(), conn)
 
             user.update({'email': usr_data[0],
                         'username': usr_data[1],
