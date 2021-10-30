@@ -13,7 +13,7 @@ class OrganizeTools():
             cat_name = input("Category Name: ")
             return operation, cat_name
 
-    def execute(self, cur):
+    def execute(self, cur, conn, user):
         values = self.get_inputs()
 
         if values[0] == 'assign':

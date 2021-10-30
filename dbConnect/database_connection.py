@@ -31,6 +31,8 @@ try:
 
         main.application(conn)
 
+        conn.close()
+
 except:
     print("Connection failed")
 

@@ -5,7 +5,7 @@ class CreateCategory():
 
         pass
 
-    def execute(self, cur):
+    def execute(self, cur, conn, user):
 
         pass
 

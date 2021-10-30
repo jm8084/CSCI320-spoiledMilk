@@ -59,11 +59,11 @@ def set_commands():
 # break down input
 def handle_command(cmd, cur,conn):
 
-    response = ''
+    global user
 
     try:
         if (loggedIn):
-            response = command_map[cmd].execute(cur,conn)
+            response = command_map[cmd].execute(cur,conn, user)
         else:
             response = 'login before executing any commands!'
     except:
@@ -117,16 +117,24 @@ def prompt():
 def login(conn):
     global loggedIn, user
 
-    user_data = ''
-
     if(command == LOGIN):
-        usr_data = Login.Login().execute(conn.cursor())
+        try:
+            usr_data = Login.Login().execute(conn.cursor())
+
+            user.update({'email': usr_data[0],
+                        'username': usr_data[1],
+                         'first': usr_data[2],
+                         'last': usr_data[3]})
+
+            print('...logging in')
+            loggedIn = True
+        except:
+            print(' Setting user data failed')
     else:
         usr_data = CreateAccount.CreateAccount().execute(conn.cursor())
 
 
-    print('...logging in')
-    loggedIn = True
+
 
 #
 def logout():

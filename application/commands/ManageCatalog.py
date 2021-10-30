@@ -42,7 +42,7 @@ class ManageCatalog():
         else:
             operation = 'err'
 
-    def execute(self, cur):
+    def execute(self, cur, conn, user):
 
         values = self.get_inputs()
 

@@ -13,16 +13,16 @@ class Login():
         values = self.get_inputs()
 
         try:
-            cur.execute("SELECT * FROM usr WHERE username = %s AND password = %s", (values[0], values[1]))
-            self.toString(cur.fetchone())
+            cur.execute("SELECT email, username, firstname, lastname FROM usr WHERE username = %s AND password = %s", (values[0], values[1]))
+            return self.toString(cur.fetchone())
 
         except:
             print('login failed!')
 
 
-    def toString(self, result) -> str:
+    def toString(self, result):
 
-        # extract & display results
+        print('Hi ',result[2])
 
         return result
 

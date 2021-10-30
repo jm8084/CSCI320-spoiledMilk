@@ -11,7 +11,7 @@ class Request():
 
         return barcode,username,daterequired,datereturned
 
-    def execute(self, cur,conn):
+    def execute(self, cur,conn, user):
         values = self.get_inputs()
 
         try:
