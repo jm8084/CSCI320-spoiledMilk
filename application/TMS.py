@@ -101,7 +101,7 @@ def prompt():
     -\033[36m {CREATE_CATEGORY} \033[0m : create a tool category
     -\033[36m {SEARCH_TOOL} \033[0m     : search tools by barcode, name, or category (default: name)
     -\033[36m {SORT_TOOLS} \033[0m      : sort tools by name or category; ascending or descending
-    -\033[36m {REQUEST} \033[0m 
+    -\033[36m {REQUEST} \033[0m         : request to borrow a tool from another user
     -\033[36m {MANAGE_REQUESTS} \033[0m 
     -\033[36m {ACCEPT_REQUEST} \033[0m 
     -\033[36m {DENY_REQUEST} \033[0m
