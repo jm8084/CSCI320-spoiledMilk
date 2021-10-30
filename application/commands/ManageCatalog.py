@@ -1,23 +1,24 @@
-
+import psycopg2
 class ManageCatalog():
 
     def get_inputs(self):
         operation = input("Would you like to 'add', 'edit', or 'delete' a tool: ")
 
         if operation == 'add':
-            user = input("Username: ")
+            # user = input("Username: ")
             barcode = input("Tool barcode: ")
             name = input("Tool Name: ")
             description = input("Description: ")
             purchase_p = input("Purchase Price: x.xx ")
-            purchase_d = input("Purchase Date: mm/dd/yyyy ")
+            purchase_d = input("Purchase Date YYYY-MM-DD: ")
             share = 1
 
             # "INSERT INTO tool(barcode, name, description, shareable, purchaseDate, purchasePrice)
             # VALUES(barcode, name, description, purchase_p, purchase_d, share);"
             # "INSERT INTO catalog(barcode, username) VALUES(barcode, USERNAME???)"
 
-            return operation, barcode, name, description, purchase_p, purchase_d, share, user
+            # return operation, barcode, name, description, purchase_p, purchase_d, share, user
+            return operation, barcode, name, description, purchase_p, purchase_d, share
 
         elif operation == 'edit':
             bar = input('Tool barcode to edit: ')
@@ -48,20 +49,32 @@ class ManageCatalog():
 
         if values[0] == 'add':
             try:
-                result1 = cur.execute(f"INSERT INTO tool VALUES({values[1]}, {values[2]}, {values[3]}, {values[4]}, {values[5]}, {values[6]})")
-                result2 = cur.execute(f"INSERT INTO catalog VALUES({values[1]}, {values[7]} )")
+
+                # return operation, barcode, name, description, purchase_p, purchase_d, share
+                print(f"INSERT INTO tool(barcode,name,description,sharable,purchasedate,purchaseprice) VALUES({values[1]}, '{values[2]}', '{values[3]}', {values[6]}, '{values[5]}', '{values[4]}')")
+                print(f"INSERT INTO catalog VALUES({values[1]}, {user['username']} )")
+                result1 = cur.execute(f"INSERT INTO tool(barcode,name,description,sharable,purchasedate,purchaseprice) VALUES({values[1]}, '{values[2]}', '{values[3]}', {values[6]}, '{values[5]}', '{values[4]}')")
+                result2 = cur.execute(f"INSERT INTO catalog VALUES({values[1]}, '{user['username']}' )")
                 # "INSERT INTO tool(barcode, name, description, shareable, purchaseDate, purchasePrice)
                 # VALUES(barcode, name, description, purchase_p, purchase_d, share);"
                 # "INSERT INTO catalog(barcode, username) VALUES(barcode, USERNAME???)"
-
+                conn.commit()
                 # check for valid results
-                if result1 is None or result2 is None:
-                    return 'add failed'
-                else:
-                    return self.toString(result1)
+                print(result1)
+                print(result2)
+                # if result1 is None or result2 is None:
+                #     return 'add failed'
+                # else:
+                #     return self.toString(result1)
 
-            except:
-                print('add failed!')
+            except (psycopg2.DatabaseError) as e:
+
+                conn.rollback()
+
+                # print(e)
+
+            finally:
+                cur.close()
 
         elif values[0] == 'edit':
             try:
