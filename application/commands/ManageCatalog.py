@@ -24,8 +24,19 @@ class ManageCatalog():
             bar = input('Tool barcode to edit: ')
             action = input(
                 "What would you like to change? Enter one: name, description, shareable, purchaseDate, purchasePrice ")
+            if((action=='name')or(action=='description')):
+                change = input("What do you want to change it to?")
+            elif(action=='shareable'):
+                change = input("What do you want to change it to 'yes' or 'no'?")
+                if (change=='yes'):
+                    change=1
+                elif (change=='no'):
+                    change=0
+            elif(action=='purchaseDate'):
+                change = input("What do you want to change it to YYYY-MM-DD?")
+            elif(action=='purchasePrice'):
+                change = input("What do you want to change it to x.xx?")
 
-            change = input("What do you want to change it to?")
 
             # "UPDATE tool SET action = change WHERE barcode = bar;
 
@@ -81,13 +92,15 @@ class ManageCatalog():
 
         elif values[0] == 'edit':
             try:
-                print(f"UPDATE tool SET {values[2]} = {values[3]} WHERE barcode = {values[1]}")
+                # print(f"UPDATE tool SET {values[2]} = {values[3]} WHERE barcode = {values[1]}")
                 result = cur.execute(f"UPDATE tool SET {values[2]} = {values[3]} WHERE barcode = {values[1]}")
-                # "UPDATE tool SET action = change WHERE barcode = bar;
 
+                conn.commit()
+                # "UPDATE tool SET action = change WHERE barcode = bar;
+                # print(result)
                 # check for valid results
-                # if result is None:
-                #     return 'edit failed'
+                if result is None:
+                    return '[+][Manage Catalog]Edit tool successful'
                 # else:
                 #     return self.toString(result)
             except (psycopg2.DatabaseError) as e:
@@ -103,26 +116,51 @@ class ManageCatalog():
             try:
                 # This statement is probably not correct (I need some requests in order to test)
                 # Select the tool if its status is borrowed
-                result = cur.execute(f"SELECT * FROM request WHERE barcode = {values[1]}, status = 'Borrowed'")
-                if result is None:
-                    result1 = cur.execute(f"DELETE FROM tool WHERE barcode = {values[1]}")
-                    result2 = cur.execute(f"DELETE FROM catalog WHERE barcode = {values[1]}")
-                    result3 = cur.execute(f"DELETE FROM tool_category WHERE barcode = {values[1]}")
-                    result4 = cur.execute(f"DELETE FROM request WHERE barcode = {values[1]}")
+
+                # result = cur.execute(f"SELECT * FROM request WHERE barcode = {values[1]}, status = 'Borrowed'")
+                # if result is None:
+                result1 = cur.execute(f"DELETE FROM tool WHERE barcode = {values[1]}")
+                    # result4 = cur.execute(f"DELETE FROM request WHERE barcode = {values[1]}")
+
+
+                # result = cur.execute(f"SELECT * FROM request WHERE barcode = {values[1]}, status = 'Borrowed'")
+                # if result is None:
+                #     result1 = cur.execute(f"DELETE FROM tool WHERE barcode = {values[1]}")
+                #     result4 = cur.execute(f"DELETE FROM request WHERE barcode = {values[1]}")
                     # "DELETE FROM tool WHERE barcode = bar"
                     # "DELETE FROM catalog WHERE barcode = bar"
                     # "DELETE FROM category WHERE barcode = bar"
                     # "DELETE FROM request WHERE barcode = bar"
 
                     # check for valid results
-                    if result1 is None or result2 is None or result3 is None:
-                        return 'delete failed'
-                    else:
-                        return self.toString(result1)
-                else:
-                    return 'delete failed, tool is being borrowed'
-            except:
-                print('delete failed!')
+            #         if result1 is None or result2 is None or result3 is None:
+            #             return 'delete failed'
+            #         else:
+            #             return self.toString(result1)
+            #     else:
+            #         return 'delete failed, tool is being borrowed'
+            # except:
+            #     print('delete failed!')
+
+
+
+                conn.commit()
+                # "UPDATE tool SET action = change WHERE barcode = bar;
+                print(result1)
+                # check for valid results
+                # if result is None:
+                #     return '[+][Manage Catalog]Edit tool successful'
+                # else:
+                #     return self.toString(result)
+            except (psycopg2.DatabaseError) as e:
+
+                conn.rollback()
+
+                print(e)
+
+
+            finally:
+                cur.close()
         else:
             print('operation failed')
 
