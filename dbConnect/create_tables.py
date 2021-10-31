@@ -40,7 +40,7 @@ def create_tables(curs,conn):
                     FOREIGN KEY (barcode)
                         REFERENCES tool (barcode)
                         ON DELETE CASCADE,
-                categoryID SERIAL,
+                categoryID INTEGER,
                 CONSTRAINT fk_categoryID
                     FOREIGN KEY (categoryID)
                         REFERENCES category (categoryID)
