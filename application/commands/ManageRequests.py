@@ -38,7 +38,7 @@ class ManageRequests():
                 if (action=='yes'):
                     index = input("What is the index of the request for the tool you want to return: ")
                     selected_request = requests[int(index)]
-                    print(selected_request)
+                    # print(selected_request)
                     return_date = date.today().strftime("%Y-%m-%d")
                     try:
                         stat_result = cur.execute(
@@ -46,7 +46,7 @@ class ManageRequests():
 
                         conn.commit()
                         date_result = cur.execute(
-                            f"UPDATE request SET datereturned = '{return_date}' WHERE barcode = {selected_request[0]} AND username = '{user['username']}' AND daterequired = '{selected_request[3]}' AND status = 3")
+                            f"UPDATE request SET datereturned = '{return_date}' WHERE barcode = {selected_request[0]} AND username = '{user['username']}' AND daterequired = '{selected_request[2]}' AND status = 3")
 
                         conn.commit()
 
