@@ -48,12 +48,13 @@ class InspectTools():
                             f"INNER JOIN tool t on r.barcode = t.barcode) "
                             f"WHERE r.username = '{user['username']}' AND r.status = 1 "
                             f"ORDER BY r.daterequired ASC")
-                if row[2] < date.today():
-                    print("\033[91m", end='')
-                    print(row)
-                    print("\033[0m", end='')
-                else:
-                    print(row)
+                for row in cur.fetchall():
+                    if row[2] < date.today():
+                        print("\033[91m", end='')
+                        print(row)
+                        print("\033[0m", end='')
+                    else:
+                        print(row)
         except Exception as e:
             print("Error getting records")
             print(e)
