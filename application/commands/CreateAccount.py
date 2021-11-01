@@ -35,7 +35,7 @@ class CreateAccount():
 
         finally:
             cur.close()
-            return('')
+            return
 
     def toString(self, values):
         print('Account created successfully and you will be automatically logged in.')

@@ -129,7 +129,7 @@ def login(conn):
     else:
         usr_data = CreateAccount.CreateAccount().execute(conn.cursor(), conn)
         # If we successfully returned the values from the toString() call
-        if usr_data != None:
+        if usr_data is not None:
             user.update({'email': usr_data[1],
                          'username': usr_data[0],
                          'first': usr_data[3],
