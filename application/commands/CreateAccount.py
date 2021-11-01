@@ -26,7 +26,7 @@ class CreateAccount():
             return self.toString(values)
 
         except psycopg2.IntegrityError:
-            print("This username is already in use.  Login to that account or use another username.")
+            print("This username or email is already in use.  Login to that account or use another username or email.")
             conn.rollback()
 
         except (Exception, psycopg2.DatabaseError):
@@ -35,7 +35,6 @@ class CreateAccount():
 
         finally:
             cur.close()
-            return
 
     def toString(self, values):
         print('Account created successfully and you will be automatically logged in.')
