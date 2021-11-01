@@ -49,8 +49,6 @@ def set_commands():
         SORT_TOOLS: SortTools.SortTools(),
         REQUEST: Request.Request(),
         MANAGE_REQUESTS: ManageRequests.ManageRequests(),
-        ACCEPT_REQUEST: AcceptRequest.AcceptRequest(),
-        DENY_REQUEST: DenyRequest.DenyRequest(),
         INSPECT_TOOL: InspectTools.InspectTools(),
         RETURN_TOOL: ReturnTool.ReturnTool(),
         DELETE_TOOL: DeleteTool.DeleteTool()
@@ -103,8 +101,6 @@ def prompt():
     -\033[36m {SORT_TOOLS} \033[0m      : sort tools by name or category; ascending or descending
     -\033[36m {REQUEST} \033[0m         : request to borrow a tool from another user
     -\033[36m {MANAGE_REQUESTS} \033[0m 
-    -\033[36m {ACCEPT_REQUEST} \033[0m 
-    -\033[36m {DENY_REQUEST} \033[0m
     -\033[36m {INSPECT_TOOL} \033[0m
     -\033[36m {RETURN_TOOL} \033[0m
     -\033[36m {DELETE_TOOL} \033[0m
@@ -134,10 +130,10 @@ def login(conn):
         usr_data = CreateAccount.CreateAccount().execute(conn.cursor(), conn)
         # If we successfully returned the values from the toString() call
         if usr_data != None:
-            user.update({'email'    : usr_data[1],
-                         'username' : usr_data[0],
-                         'first'    : usr_data[3],
-                         'last'     : usr_data[4]})
+            user.update({'email': usr_data[1],
+                         'username': usr_data[0],
+                         'first': usr_data[3],
+                         'last': usr_data[4]})
             print('...logging in')
             loggedIn = True
             print('Welcome, ' + user['first'] + '.')
@@ -176,4 +172,4 @@ def application(conn):
         elif(command == LOGOUT):
             logout()
         else:
-            print(handle_command(command, conn.cursor(),conn))
+            print(handle_command(command, conn.cursor(), conn))
