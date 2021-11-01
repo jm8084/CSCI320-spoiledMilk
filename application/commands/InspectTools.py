@@ -3,7 +3,8 @@ class InspectTools():
 
     def get_inputs(self):
         display = input("Would you like to see 'available', 'lent', 'borrowed', or 'all' tools (default is all): ")
-        if display != 'available' or display != 'lent' or display != 'borrowed':
+        if display not in ['available','lent','borrowed']:
+        # if display != 'available' or display != 'lent' or display != 'borrowed':
             display = 'all'
         return display
 
