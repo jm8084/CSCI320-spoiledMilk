@@ -33,6 +33,10 @@ class CreateAccount():
             print('Create account failed!')
             conn.rollback()
 
+        finally:
+            cur.close()
+            return('')
+
     def toString(self, values):
         print('Account created successfully and you will be automatically logged in.')
         return values
