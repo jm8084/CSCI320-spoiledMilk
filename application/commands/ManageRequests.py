@@ -2,7 +2,7 @@ from application.commands import AcceptRequest, DenyRequest
 import psycopg2
 from datetime import date
 
-request_status=['pending','accepted','denied','completed']
+request_status=['pending','accepted','denied','completed','deleted']
 
 class ManageRequests():
 

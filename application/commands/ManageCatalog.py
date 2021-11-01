@@ -1,5 +1,9 @@
 import psycopg2
+
+request_status = ['pending', 'accepted', 'denied', 'completed', 'deleted']
+
 class ManageCatalog():
+
 
     def get_inputs(self):
         operation = input("Would you like to 'add', 'edit', or 'delete' a tool: ")
@@ -119,7 +123,26 @@ class ManageCatalog():
 
                 # result = cur.execute(f"SELECT * FROM request WHERE barcode = {values[1]}, status = 'Borrowed'")
                 # if result is None:
-                result1 = cur.execute(f"DELETE FROM tool WHERE barcode = {values[1]}")
+
+                # check request table if barcode is active, update status otherwise
+                cur.execute(f"SELECT barcode, username, status FROM request WHERE barcode = %s", (values[1],))
+                result0 = cur.fetchall()
+                if result0:
+                    delete = True
+                    for i in result0:
+                        # if pending or accepted
+                        if i[2] < 2:
+                            print("\033[1mCan't delete tool\033[0m")
+                            print(f"Tool: {i[0]} \nTool status: {request_status[i[2]]} \nFrom: {i[1]} \n")
+                            delete = False
+                        elif delete:
+                            cur.execute(f"UPDATE request SET status = %s WHERE barcode = %s", (4, i[0]))
+
+                    if delete:
+                        cur.execute(f"DELETE FROM catalog WHERE barcode = %s AND username = %s", (values[1], user['username']))
+                        print(f'Tool barcode {values[1]} deleted!')
+                    else:
+                        conn.rollback()
                     # result4 = cur.execute(f"DELETE FROM request WHERE barcode = {values[1]}")
 
 
@@ -146,7 +169,7 @@ class ManageCatalog():
 
                 conn.commit()
                 # "UPDATE tool SET action = change WHERE barcode = bar;
-                print(result1)
+                #print(result1)
                 # check for valid results
                 # if result is None:
                 #     return '[+][Manage Catalog]Edit tool successful'

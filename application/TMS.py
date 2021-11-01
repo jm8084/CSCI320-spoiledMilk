@@ -88,10 +88,10 @@ def prompt():
   
     \033[92m------- General Commands ------- \033[0m
     -\033[36m {HELP} \033[0m            : Display user manual
-    -\033[36m {LOGIN} \033[0m
-    -\033[36m {LOGOUT} \033[0m
-    -\033[36m {CREATE_ACCOUNT} \033[0m 
-    -\033[36m {EXIT} \033[0m            : kill application
+    -\033[36m {LOGIN} \033[0m           : Log into existing account
+    -\033[36m {LOGOUT} \033[0m          : Log out account
+    -\033[36m {CREATE_ACCOUNT} \033[0m  : Create new account
+    -\033[36m {EXIT} \033[0m            : Exit application
      
     \033[92m------- User Commands ------- \033[0m
     -\033[36m {MANAGE_CATALOG} \033[0m  : add/edit/delete tools from your catalog
@@ -100,10 +100,10 @@ def prompt():
     -\033[36m {SEARCH_TOOL} \033[0m     : search tools by barcode, name, or category (default: name)
     -\033[36m {SORT_TOOLS} \033[0m      : sort tools by name or category; ascending or descending
     -\033[36m {REQUEST} \033[0m         : request to borrow a tool from another user
-    -\033[36m {MANAGE_REQUESTS} \033[0m 
-    -\033[36m {INSPECT_TOOL} \033[0m
-    -\033[36m {RETURN_TOOL} \033[0m
-    -\033[36m {DELETE_TOOL} \033[0m
+    -\033[36m {MANAGE_REQUESTS} \033[0m : View or edit made & received requests
+    -\033[36m {INSPECT_TOOL} \033[0m    : View list of tools
+    -\033[36m {RETURN_TOOL} \033[0m     : Return a borrowed tool
+    -\033[36m {DELETE_TOOL} \033[0m     : Delete a tool from your catalog
     *********************\033[91m--- End manual ---\033[0m*********************
     """
 
