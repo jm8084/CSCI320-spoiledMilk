@@ -1,4 +1,6 @@
 import psycopg2
+
+shareable=['no','yes']
 class SearchTool():
 
     def get_inputs(self):
@@ -50,8 +52,9 @@ class SearchTool():
 
             rows = cur.fetchall()
             # print("The number of tools: ", cur.rowcount)
+            print("\033[1m | barcode \t| tool name \t| description \t| shareable \t| purchasedate \t| purchaseprice \t| categoryname\033[0m")
             for row in rows:
-                print(row)
+                print(f" | {row[0]}  \t\t| \t {row[1]}  \t| \t {row[2]}  \t|\t {shareable[row[3]]}\t|\t {row[4]}\t|\t {row[5]}\t|\t {row[6]}")
             # print(result)
             # check for valid results
             # if result is None:
