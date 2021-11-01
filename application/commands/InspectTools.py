@@ -1,10 +1,11 @@
+from datetime import datetime
+from datetime import date
 
 class InspectTools():
 
     def get_inputs(self):
         display = input("Would you like to see 'available', 'lent', 'borrowed', or 'all' tools (default is all): ")
         if display not in ['available','lent','borrowed']:
-        # if display != 'available' or display != 'lent' or display != 'borrowed':
             display = 'all'
         return display
 
@@ -34,7 +35,12 @@ class InspectTools():
                             f"WHERE c.username = '{user['username']}' AND r.status = 1 "
                             f"ORDER BY r.daterequired ASC")
                 for row in cur.fetchall():
-                    print(row)
+                    if row[2] < date.today() :
+                        print("\033[91m", end='')
+                        print(row)
+                        print("\033[0m",end='')
+                    else:
+                        print(row)
             if display == 'borrowed' or display == 'all':
                 print('Borrowed:')
                 cur.execute(f"SELECT c.username, r.daterequired, r.datereturned, t.* FROM "
@@ -42,7 +48,11 @@ class InspectTools():
                             f"INNER JOIN tool t on r.barcode = t.barcode) "
                             f"WHERE r.username = '{user['username']}' AND r.status = 1 "
                             f"ORDER BY r.daterequired ASC")
-                for row in cur.fetchall():
+                if row[2] < date.today():
+                    print("\033[91m", end='')
+                    print(row)
+                    print("\033[0m", end='')
+                else:
                     print(row)
         except Exception as e:
             print("Error getting records")
