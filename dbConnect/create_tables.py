@@ -4,12 +4,12 @@ import psycopg2
 
 
 def create_tables(curs,conn):
-    """ create tables in the PostgreSQL database"""
+    # """ create tables in the PostgreSQL database"""
     commands = [
         """
         CREATE TABLE category (
             categoryID SERIAL PRIMARY KEY,
-            categoryName TEXT UNIQUE NOT NULL
+            categoryName VARCHAR(100) UNIQUE NOT NULL
         )
         """,
         """
@@ -64,8 +64,7 @@ def create_tables(curs,conn):
                 barcode INTEGER NOT NULL,
                 CONSTRAINT fk_barcode
                     FOREIGN KEY (barcode)
-                        REFERENCES tool (barcode)
-                        ON DELETE CASCADE,
+                        REFERENCES tool (barcode),
                 username VARCHAR(20) NOT NULL,
                 CONSTRAINT fk_username
                     FOREIGN KEY (username)
