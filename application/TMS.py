@@ -1,4 +1,10 @@
-from application.commands import Login, CreateAccount, ManageCatalog, OrganizeTools, CreateCategory, SearchTool, SortTools, Request, ManageRequests, AcceptRequest, DenyRequest, InspectTools, ReturnTool, DeleteTool
+from application.commands import Login, CreateAccount, ManageCatalog, OrganizeTools,  SearchTool, SortTools, Request, ManageRequests,  InspectTools, ToolsDashBoard
+# CreateCategory,
+# AcceptRequest,
+# , DeleteTool
+# DenyRequest,
+# , ReturnTool
+
 import dbConnect.create_tables as tables
 
 
@@ -32,6 +38,7 @@ DENY_REQUEST = 'deny-request'
 INSPECT_TOOL = 'inspect-tool'
 RETURN_TOOL = 'return-tool'
 DELETE_TOOL = 'delete-tool'
+TOOLS_DASH_BOARD = 'tools-dash-board'
 
 
 # correlate commands to their proper execution
@@ -44,14 +51,15 @@ def set_commands():
     command_map = {
         MANAGE_CATALOG: ManageCatalog.ManageCatalog(),
         ORGANIZE_TOOLS: OrganizeTools.OrganizeTools(),
-        CREATE_CATEGORY: CreateCategory.CreateCategory(),
+        # CREATE_CATEGORY: CreateCategory.CreateCategory(),
         SEARCH_TOOL: SearchTool.SearchTool(),
         SORT_TOOLS: SortTools.SortTools(),
         REQUEST: Request.Request(),
         MANAGE_REQUESTS: ManageRequests.ManageRequests(),
         INSPECT_TOOL: InspectTools.InspectTools(),
-        RETURN_TOOL: ReturnTool.ReturnTool(),
-        DELETE_TOOL: DeleteTool.DeleteTool()
+        TOOLS_DASH_BOARD: ToolsDashBoard.ToolsDashBoard(),
+        # RETURN_TOOL: ReturnTool.ReturnTool(),
+        # DELETE_TOOL: DeleteTool.DeleteTool()
     }
 
 # break down input
@@ -102,6 +110,7 @@ def prompt():
     -\033[36m {REQUEST} \033[0m         : request to borrow a tool from another user
     -\033[36m {MANAGE_REQUESTS} \033[0m : View or edit made & received requests
     -\033[36m {INSPECT_TOOL} \033[0m    : View list of tools
+    -\033[36m {TOOLS_DASH_BOARD} \033[0m: View number of available, lent, and borrowed tools
     -\033[36m {RETURN_TOOL} \033[0m     : Return a borrowed tool
     -\033[36m {DELETE_TOOL} \033[0m     : Delete a tool from your catalog
     *********************\033[91m--- End manual ---\033[0m*********************
