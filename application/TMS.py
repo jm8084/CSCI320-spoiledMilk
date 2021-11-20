@@ -1,4 +1,4 @@
-from application.commands import Login, CreateAccount, ManageCatalog, OrganizeTools,  SearchTool, SortTools, Request, ManageRequests,  InspectTools, ToolsDashBoard
+from application.commands import Login, CreateAccount, ManageCatalog, OrganizeTools,  SearchTool, SortTools, Request, ManageRequests,  InspectTools, ToolsDashBoard, ToolsStatistics
 # CreateCategory,
 # AcceptRequest,
 # , DeleteTool
@@ -39,6 +39,7 @@ INSPECT_TOOL = 'inspect-tool'
 RETURN_TOOL = 'return-tool'
 DELETE_TOOL = 'delete-tool'
 TOOLS_DASH_BOARD = 'tools-dash-board'
+TOOLS_STATISTICS = 'tools-statistics'
 
 
 # correlate commands to their proper execution
@@ -58,6 +59,7 @@ def set_commands():
         MANAGE_REQUESTS: ManageRequests.ManageRequests(),
         INSPECT_TOOL: InspectTools.InspectTools(),
         TOOLS_DASH_BOARD: ToolsDashBoard.ToolsDashBoard(),
+        TOOLS_STATISTICS: ToolsStatistics.ToolsStatistics()
         # RETURN_TOOL: ReturnTool.ReturnTool(),
         # DELETE_TOOL: DeleteTool.DeleteTool()
     }
@@ -111,6 +113,7 @@ def prompt():
     -\033[36m {MANAGE_REQUESTS} \033[0m : View or edit made & received requests
     -\033[36m {INSPECT_TOOL} \033[0m    : View list of tools
     -\033[36m {TOOLS_DASH_BOARD} \033[0m: View number of available, lent, and borrowed tools
+    -\033[36m {TOOLS_STATISTICS} \033[0m: View top 10 most borrowed tools, most lent tools
     -\033[36m {RETURN_TOOL} \033[0m     : Return a borrowed tool
     -\033[36m {DELETE_TOOL} \033[0m     : Delete a tool from your catalog
     *********************\033[91m--- End manual ---\033[0m*********************
