@@ -34,6 +34,7 @@ class Request():
             if b[1] >= usrLen/2:
                 cur.execute("SELECT barcode, name, description FROM tool WHERE barcode = %s", (b[0]))
                 tool = cur.fetchone()
+                #print("EJM   " + tool[0] + bc)
                 if tool[0] != bc:       # doesnt read tool request for some reason
                     print(f'| {tool[0]} | {tool[1]} :\t {tool[2]}')
 
@@ -61,13 +62,12 @@ class Request():
 
         except (psycopg2.DatabaseError) as e:
             conn.rollback()
-            # print(e)
             if e.pgcode == "23505":
                 return ('[!][Request] Duplicate Request')
             elif e.pgcode == "25P02":
                 return ("[!][Request] Tool Not Sharable")
         finally:
-            self.get_recomended(values[0], cur)
+            self.get_recomended(int(values[0]), cur)
             cur.close()
 
 
